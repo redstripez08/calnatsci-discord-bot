@@ -4,12 +4,12 @@ node_modules
 others
 
 # Sensitive
-api
-secret.json
-classes/gclass.md
-commands/classroom.js
-json/describe.json
-json/test.json
-json/sectionRoles.json
-json/roles.json
-scripts/gTest.js
+# api
+# secret.json
+# classes/gclass.md
+# commands/classroom.js
+# json/describe.json
+# json/test.json
+# json/sectionRoles.json
+# json/roles.json
+# scripts/gTest.js
