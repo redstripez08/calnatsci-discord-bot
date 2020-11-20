@@ -25,5 +25,6 @@ Not Officially Affiliated with **Caloocan National Science and Technology Highsc
 |Commands           |Description
 |-------------------|-----------
 |help               | Sends help command
+|fact               | Sends a random fact using `uselessfacts.jsph.pl` API
 
 
