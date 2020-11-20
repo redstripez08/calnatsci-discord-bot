@@ -1,0 +1,23 @@
+{
+  "name": "calnatsci-discord-bot",
+  "version": "1.1.2",
+  "description": "This is an unofficial discord bot for Grade 9 of CalNatSci.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./others/test.js",
+    "whook": "node ./scripts/whook.js",
+    "gtest": "node ./scripts/gTest.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/redstripez08/calnatsci-discord-bot.git"
+  },
+  "homepage": "https://github.com/redstripez08/calnatsci-discord-bot",
+  "author": "Angelo",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.4.1",
+    "googleapis": "^39.2.0",
+    "node-fetch": "^2.6.1"
+  }
+}
