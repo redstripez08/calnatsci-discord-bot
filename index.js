@@ -3,11 +3,13 @@ const Discord = require("discord.js");
 const client = new Discord.Client({ws:{intents: Discord.Intents.ALL}});
 
 const fs = require("fs");
-const commandFiles = fs.readdirSync("./commands").filter(file => file.endsWith(".js"));
-const ready_commandFiles = fs.readdirSync("./ready_commands").filter(file => file.endsWith(".js"));
+const commandFiles = fs.readdirSync("./commands/").filter(file => file.endsWith(".js"));
+const ready_commandFiles = fs.readdirSync("./ready_commands/").filter(file => file.endsWith(".js"));
+const classroom_commandFiles = fs.readdirSync("./classroom_commands/").filter(file => file.endsWith(".js"));
 
 const cooldowns = new Discord.Collection();
 const ready_commands = new Discord.Collection();
+client.classCommands = new Discord.Collection();
 client.commands = new Discord.Collection();
 
 const config = require("./config.json");
@@ -24,6 +26,11 @@ for (const commandFile of commandFiles) {
 for (const commandFile of ready_commandFiles) {
     const command = require(`./ready_commands/${commandFile}`);
     ready_commands.set(command.name, command);
+}
+
+for (const commandFile of classroom_commandFiles) {
+    const command = require(`./classroom_commands/${commandFile}`);
+    client.classCommands.set(command.name, command);
 }
 
 client.on("ready", async() => {
