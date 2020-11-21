@@ -4,9 +4,10 @@ node_modules
 others
 
 # Sensitive
+# secret.json
+token.json
 # api/credentials.json
 # api/token.json
-# secret.json
 # classes/gclass.md
 # commands/classroom.js
 # json/describe.json
