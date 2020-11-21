@@ -12,12 +12,10 @@ const ready_commands = new Discord.Collection();
 client.classCommands = new Discord.Collection();
 client.commands = new Discord.Collection();
 
-const config = require("./config.json");
-const secret = require("./secret.json");
-const tokenFile  = require("./token.json");
-const { Gclass } = require("./classes/gclass");
+const server = require("./server/server.js");
+const { Gclass } = require("./classes/gclass.js");
 const { version } = require("./package.json");
-const { prefix = config.prefix, token = tokenFile.token } = process.env;
+const { PORT, prefix, token } = process.env;
 
 for (const commandFile of commandFiles) {
     const command = require(`./commands/${commandFile}`);
@@ -42,7 +40,7 @@ client.on("ready", async() => {
     
     await Gclass.authorize();
     console.log("Google Classroom Authorized");
-    //thing(3005, port => console.log(`Listening to Port ${port}`));
+    server(PORT, () => console.log(`Listening to Port ${PORT}`));
 });
 
 
