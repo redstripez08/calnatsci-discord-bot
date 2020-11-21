@@ -8,22 +8,30 @@ class Gclass {
 
     /**
      * Creates a Google Classroom Instance.
-     * @param   {String|Number}        subjectId       ID of Google Class Course 
+     * @param   {Object}            subjectParams           Set of Subject Parameters
+     * @param   {String|Number}     subjectParams.id        ID of Google Class Course
+     * @param   {String}            subjectParams.name      Name of Google Class Course
+     * @param   {String}            subjectParams.color     Color of Google Class Course
      */
-    constructor(subjectId) {
+    constructor(subjectParams) {
         // Checks if Google Classroom has been authorized. Throws error if not.
         if (!Gclass.#classroom) throw new Error("You need to authorize Gclass First!");
-        // Checks for Subject ID.
-        if (!subjectId) throw new Error("Subject ID required!");
+        // Checks for Subject ID and Subject Name.
+        if (!subjectParams) throw new Error("Subject Parameters required!");
+        if (!subjectParams.id) throw new Error("Subject ID required!");
+        if (!subjectParams.name) throw new Error("Subject Name required!");
         // Checks if Subject ID is a string or number. Throws error if not.
-        if (typeof subjectId !== "string" && typeof subjectId !== "number") throw new Error("Not a valid Subject ID!");
+        if (typeof subjectParams.id !== "string" && typeof subjectParams.id !== "number") 
+        throw new Error("Not a valid Subject ID!");
 
         // Converts Subject ID to a string.
-        subjectId = subjectId.toString();
+        subjectParams.id = subjectParams.id.toString();
         // Checks if string is composed solely of digits.
-        if (!/\d+/.test(subjectId)) throw new Error("Not a valid Subject ID!");
+        if (!/\d+/.test(subjectParams.id)) throw new Error("Not a valid Subject ID!");
  
-        this.subjectId = subjectId;
+        this.subjectId = subjectParams.id;
+        this.subjectName = subjectParams.name;
+        this.subjectColor = subjectParams.color;
     }
     
     /**
@@ -65,6 +73,15 @@ class Gclass {
         try {
             const { data } = await Gclass.#classroom.courses.list({pageSize});
             return Promise.resolve(data.courses);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
+    async getCourseWork(pageSize = 5) {
+        try {
+            const { data } = await Gclass.#classroom.courses.courseWork.list({courseId: this.subjectId ,pageSize});
+            return Promise.resolve(data.courseWork);
         } catch (error) {
             return Promise.reject(error);
         }

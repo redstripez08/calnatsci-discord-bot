@@ -14,13 +14,43 @@ API. It uses promises instead of callbacks.
 ### Quickstart
 In your terminal, npm install `googleapis@39`
 ```
+npm init
 npm install googleapis@39
 ```
-Then Inside your main file, it should look something like this.
+Your directory should look something like this:
+```
+node_modules
+gclass.js
+index.js
+package.json
+package-lock.json
+```
+Then inside your `index.js` file, it should look something like this.
 ```js
-const { Gclass } = require("./path/to/Gclass"); 
+const { Gclass } = require("./gclass");
+
+(async() => {
+    await Gclass.authorize();   // Authorizes App for Gclass API
+    // If this is your fist time authorizing or you don't have `token.json`,
+    // then it will prompt creation of `token.json` through the terminal.
+})();
 ```
 
 ### Authorization
-Before using the Google Classroom API
+Before using the Google Classroom API, you need to authorize Google Classroom
+```js
+const { Gclass } = require("./gclass");
+
+(async() => {
+    await Gclass.authorize();
+    
+    console.log(await Gclass.getCourses()); // Logs All courses and their ID
+    
+    const English = new Gclass(subjectId);
+
+    const announcements = await English.getAnnouncements()  // Gets Announcements
+    const topics = await English.getTopics()                // Gets Topics
+
+})();
+```
 
