@@ -16,7 +16,11 @@ module.exports = {
      */
     async execute(message, args) {
         const fetch = require("node-fetch");
-        const { shipKey } = require("../secret.json");
+        const Cryptr = require("cryptr");
+        const cryptr = new Cryptr(process.env.cryptrKey);
+
+        const { content } = require("../secret.json");
+        const { shipKey } = JSON.parse(cryptr.decrypt(content));
 
         const originLink = "http://localhost:3000";
         const link = new URL("/ships", originLink);
@@ -38,6 +42,7 @@ module.exports = {
             }
             message.channel.send(lol.join(",\n"));
         } catch (error) {
+            message.channel.send(`There was an error!\n\`${error}\``);
             console.log(error);
         }
     }
