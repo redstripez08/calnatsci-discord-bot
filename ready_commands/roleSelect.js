@@ -8,10 +8,16 @@ module.exports = {
      * @param {Discord.Client} client 
      */
     async execute(client) {
-        if (!client) return;
+        if (!client) throw new Error("Client is Gone for some reason");
+
+        const Cryptr = require("cryptr");
+        const cryptr = new Cryptr(process.env.cryptrKey);
+        const { content } = require("../secret.json");
+
+        
         const { MessageEmbed } = require("discord.js");
         const sectionRoles = require("../json/sectionRoles.json");
-        const secret = require("../secret.json");
+        const secret = JSON.parse(cryptr.decrypt(content));
         const channel = client.channels.cache.get(secret.roleChannelId);
         const guild = client.guilds.cache.get(secret.guildId);
 
