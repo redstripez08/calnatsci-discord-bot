@@ -2,11 +2,10 @@ node_modules
 
 # Unrelated/Unimportant
 others
+test
 
 # Sensitive
 .env
-secret.json
-token.json
 # api/credentials.json
 # api/token.json
 # classes/gclass.md
