@@ -1,13 +1,21 @@
 const { Gclass } = require("../classes/gclass");
 
+const momentTZ = require("moment-timezone");
+const day = momentTZ("2020-11-23 15:59Z");
+
+console.log(day.tz("Asia/Manila").format("YYYY-MM-DD HH:mm z"));
+
+
+return;
 (async() => {
     try {
         await Gclass.authorize();
 
-        const English = new Gclass(155665494667);
+        const English = new Gclass(155665494667, "English");
         const ann = await English.getTopics();
         const lol = [];
-    
+        const heh = await English.getCourseWork();
+        console.log(heh[0].dueDate, heh[0].dueTime);
         return;
         for (const announce of ann) {
             lol.push(announce.text);
