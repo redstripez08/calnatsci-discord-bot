@@ -1,6 +1,8 @@
 const fs = require('fs');
 const readline = require('readline');
 const { google } = require('googleapis');
+const Cryptr = require("cryptr");
+const cryptr = new Cryptr(process.env.cryptrKey);
 
 /** Represents Gclass Section i guess */
 class Gclass {
@@ -158,7 +160,8 @@ class Gclass {
                     oAuth2Client.setCredentials(token);
                     
                     // Writes token into `token.json`.
-                    await fs.promises.writeFile(tokenPath, JSON.stringify(token));
+                    const content = {content: cryptr.encrypt(JSON.stringify(token))}
+                    await fs.promises.writeFile(tokenPath, JSON.stringify(content));
                     console.log("Token stored to: " + tokenPath);
 
                     // Sets Google Classroom.
@@ -178,7 +181,7 @@ class Gclass {
      * @param   {String}            tokenPath   Path of `token.json`
      * @returns {Promise<void>}                 Void Promise
      */
-    static async authorize(scopes, credPath = "./api/credentials.json", tokenPath = "./api/token.json") {
+    static async authorize(scopes, credPath = "../api/credentials.json", tokenPath = "../api/token.json") {
         try {
             // If modifying scopes, delete `token.json`
             // More Scopes can be found at https://developers.google.com/classroom/guides/auth
@@ -195,8 +198,9 @@ class Gclass {
             }
             
             // Reads `credentials.json` and parses it.
-            const creds = await fs.promises.readFile(credPath); 
-            const credentials = JSON.parse(creds);
+            //const creds = await fs.promises.readFile(credPath); 
+            const creds = require(credPath);
+            const credentials = JSON.parse(cryptr.decrypt(creds.content));
 
             // Destructures required values from `credentials.json` and creates OAuth2 Client.
             const { client_secret, client_id, redirect_uris } = credentials.installed;
@@ -204,8 +208,9 @@ class Gclass {
 
             try {
                 // Gets token from `token.json` file for OAuth2. If not exits, it catches.
-                const token = await fs.promises.readFile(tokenPath);
-                oAuth2Client.setCredentials(JSON.parse(token));
+                //const token = await fs.promises.readFile(tokenPath);
+                const token = require(tokenPath);
+                oAuth2Client.setCredentials(JSON.parse(cryptr.decrypt(token.content)));
 
                 // Sets Google Classroom.
                 Gclass.#classroom = google.classroom({version: 'v1', auth: oAuth2Client});
