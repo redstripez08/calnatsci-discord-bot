@@ -1,6 +1,11 @@
 const fetch = require("node-fetch");
 const readline = require("readline");
-const { webhook } = require("../secret.json");
+
+const Cryptr = require("cryptr");
+const cryptr = new Cryptr(process.env.cryptrKey);
+
+const { content } = require("../secret.json");
+const { webhook } = JSON.parse(cryptr.decrypt(content));
 
 const originLink = "https://discord.com";
 const link = new URL(`/api/webhooks/${webhook.id}/${webhook.token}`, originLink);
