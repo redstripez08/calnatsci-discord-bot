@@ -17,6 +17,7 @@
   "author": "Angelo",
   "license": "ISC",
   "dependencies": {
+    "cryptr": "^6.0.2",
     "discord.js": "^12.4.1",
     "googleapis": "^39.2.0",
     "moment": "^2.29.1",
