@@ -4,6 +4,7 @@ node_modules
 others
 
 # Sensitive
+.env
 secret.json
 token.json
 # api/credentials.json
