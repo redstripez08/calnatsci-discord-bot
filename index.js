@@ -40,7 +40,7 @@ client.on("ready", async() => {
     
     await Gclass.authorize();
     console.log("Google Classroom Authorized");
-    server(PORT, () => console.log(`Listening to Port ${PORT}`));
+    //server(PORT, () => console.log(`Listening to Port ${PORT}`));
 });
 
 

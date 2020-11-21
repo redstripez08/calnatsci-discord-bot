@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "node -r dotenv/config index.js",
+    "serve": "node -r dotenv/config ./server/server.js",
     "test": "node ./others/test.js",
     "whook": "node ./scripts/whook.js",
-    "gtest": "node ./scripts/gTest.js"
+    "gtest": "node ./scripts/gTest.js",
+    "heroku-serve": "node ./server/server.js"
   },
   "repository": {
     "type": "git",

@@ -1,7 +1,7 @@
 const http = require("http");
 const fs = require("fs");
 
-function server(port, callback) {
+function server(port) {
     
     const server = http.createServer((req, res) => {
         fs.readFile("./website/index.html", "UTF-8", (err, data) => {
@@ -13,7 +13,9 @@ function server(port, callback) {
     });
     
     server.listen(port);
-    callback();
 }
 
-module.exports = server;
+server(process.env.PORT);
+console.log("Listening to Port " + process.env.PORT);
+
+//module.exports = server;
