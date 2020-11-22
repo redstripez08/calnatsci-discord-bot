@@ -15,13 +15,13 @@ module.exports = {
      */
     async execute(message, args) {
         const { MessageEmbed } = require("discord.js");
-        const { prefix } = require("../config.json");
+        const { prefix } = process.env;
         const { commands } = message.client;
         const commandArray = commands.map(command => command.name);
 
         const helpEmbed = new MessageEmbed()
             .setColor("#6600ff")
-            .setAuthor("CalNatSci", 'https://i.imgur.com/bNySdrg.jpg')//!change this
+            .setAuthor("CalNatSci", 'https://i.imgur.com/kBKuF03.png')
             .setThumbnail("https://i.imgur.com/xJf6bqz.png")
             .setTitle("Here's a list of all my commands:")
             .setDescription(`\`${commandArray.join('\`, \`')}\`.`)
