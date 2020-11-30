@@ -29,35 +29,38 @@ module.exports = {
                 "**:regional_indicator_c: : `Cassiopeia`**\n\n" +
                 "**:regional_indicator_o: : `Orion`**\n\n" +
                 "**:regional_indicator_p: : `Perseus`**\n\n" +
-                "**:x: : `Clear Section Role`**" 
+                "**:regional_indicator_s: : `Spectator (Non-CalNatScian)`**\n\n" + 
+                "**:x: : `Remove Section Role`**" 
             );
 
-        const countEmbed = new MessageEmbed()
-            .setColor("#ff0000")
-            .setTitle("Server Count")
-            .setDescription(
-                "**Andromeda:** **\`${num}\`"
-            );
+        // const countEmbed = new MessageEmbed()
+        //     .setColor("#ff0000")
+        //     .setTitle("Server Count")
+        //     .setDescription(
+        //         `**Andromeda:** **\`${num}\``
+        //     );
                 
         // const m = await channel.send(embed);
 
-        const androEmoji = "🇦";
-        const cassioEmoji = "🇨";
-        const orionEmoji = "🇴";
-        const perseEmoji = "🇵";
-        const clearEmoji = "❌";
+        // const androEmoji = "";
+        // const cassioEmoji = "";
+        // const orionEmoji = "";
+        // const perseEmoji = "";
+        // const clearEmoji = "";
         const acceptedEmojis = [
-            androEmoji,
-            cassioEmoji,
-            orionEmoji,
-            perseEmoji,
-            clearEmoji
+            androEmoji = "🇦",
+            cassioEmoji = "🇨",
+            orionEmoji = "🇴",
+            perseEmoji = "🇵",
+            specEmoji = "🇸",
+            clearEmoji = "❌"
         ];
 
         // m.react(androEmoji);
         // m.react(cassioEmoji);
         // m.react(orionEmoji);
         // m.react(perseEmoji);
+        // m.react(specEmoji);
         // m.react(clearEmoji);
 
         // for (const sectRole of sectionRoles) {
@@ -66,18 +69,21 @@ module.exports = {
         // }
 
         
-        const m = await channel.messages.fetch("776650335422251029");
+        
+        const m = await channel.messages.fetch("782829610093510697");
 
         const androFilter = (react, user) => react.emoji.name === androEmoji && !user.bot;
         const cassioFilter = (react, user) => react.emoji.name === cassioEmoji && !user.bot;
         const orionFilter = (react, user) => react.emoji.name === orionEmoji && !user.bot;
         const perseFilter = (react, user) => react.emoji.name === perseEmoji && !user.bot;
+        const specFilter = (react, user) => react.emoji.name === specEmoji && !user.bot;
         const clearFilter = (react, user) => react.emoji.name === clearEmoji && !user.bot;
         const acceptedFilter = (react, user) => !acceptedEmojis.some(emoji => emoji === react.emoji.name) && !user.bot;
         const androCollector = m.createReactionCollector(androFilter);
         const cassioCollector = m.createReactionCollector(cassioFilter);
         const orionCollector = m.createReactionCollector(orionFilter);
         const perseCollector = m.createReactionCollector(perseFilter);
+        const specCollector = m.createReactionCollector(specFilter);
         const clearCollector = m.createReactionCollector(clearFilter);
         const acceptedCollector = m.createReactionCollector(acceptedFilter);
 
@@ -179,6 +185,25 @@ module.exports = {
             msg.delete({timeout: 20000});
         });
 
+        specCollector.on("collect", async(reaction, user) => {
+            const react = m.reactions.cache.get(reaction.emoji.name);
+            react.count -= 1;
+            react.users.remove(user.id);
+
+            const mem = guild.members.cache.get(user.id);
+            for (const role of sectionRoles) {
+                if (mem.roles.cache.has(role.id)) {
+                    const reply = await alreadyRoleReply(user, role);
+                    return reply.delete({timeout: 10000});
+                }                
+            }
+            const role = guild.roles.cache.get(sectionRoles[4].id);
+            mem.roles.add(role);
+            const msg = await channel.send(roleEmbedCreate(role, user));
+            msg.delete({timeout: 20000});
+
+        });
+
         clearCollector.on("collect", async(reaction, user) => {
             const react = m.reactions.cache.get(reaction.emoji.name);
             react.count -= 1;
@@ -199,5 +224,6 @@ module.exports = {
             msg.delete({timeout: 20000});
         });
 
+        
     }
 };
