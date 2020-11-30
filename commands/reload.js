@@ -22,7 +22,6 @@ module.exports = {
 
         if (!command) return message.channel.send(`\`${commandName}\` not Found!`);
 
-        
         try {
             delete require.cache[require.resolve(`./${command.name}.js`)];
             const newCommand = require(`./${command.name}.js`);
