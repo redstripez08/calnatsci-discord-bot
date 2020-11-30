@@ -1,12 +1,12 @@
 {
   "name": "calnatsci-discord-bot",
-  "version": "1.1.2",
-  "description": "This is an unofficial discord bot for Grade 9 of CalNatSci.",
+  "version": "1.2.1",
+  "description": "This is an unofficial Discord bot of CalNatSci.",
   "main": "index.js",
   "scripts": {
     "start": "node -r dotenv/config index.js",
     "serve": "node -r dotenv/config ./server/server.js",
-    "test": "node ./others/test.js",
+    "test": "node -r dotenv/config ./test/test1.js",
     "whook": "node ./scripts/whook.js",
     "gtest": "node ./scripts/gTest.js",
     "heroku-serve": "node ./server/server.js"
@@ -19,11 +19,14 @@
   "author": "Angelo",
   "license": "ISC",
   "dependencies": {
+    "@keyv/mongo": "^1.1.0",
     "cryptr": "^6.0.2",
     "discord.js": "^12.4.1",
     "googleapis": "^39.2.0",
+    "keyv": "^4.0.3",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.32",
+    "mongoose": "^5.10.15",
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
