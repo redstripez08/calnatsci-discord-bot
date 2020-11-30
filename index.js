@@ -7,6 +7,7 @@ const commandFiles = fs.readdirSync("./commands/").filter(file => file.endsWith(
 const ready_commandFiles = fs.readdirSync("./ready_commands/").filter(file => file.endsWith(".js"));
 const classroom_commandFiles = fs.readdirSync("./classroom_commands/").filter(file => file.endsWith(".js"));
 
+const mongoose = require("mongoose");
 const cooldowns = new Discord.Collection();
 const ready_commands = new Discord.Collection();
 client.classCommands = new Discord.Collection();
@@ -14,7 +15,7 @@ client.commands = new Discord.Collection();
 
 const { Gclass } = require("./classes/gclass.js");
 const { version } = require("./package.json");
-const { prefix, token } = process.env;
+const { prefix, token, DB_CONNECTION } = process.env;
 
 for (const commandFile of commandFiles) {
     const command = require(`./commands/${commandFile}`);
@@ -39,15 +40,22 @@ client.on("ready", async() => {
     
     await Gclass.authorize();
     console.log("Google Classroom Authorized");
+
+    mongoose.connect(
+        DB_CONNECTION,
+        {useNewUrlParser: true, useUnifiedTopology: true}, 
+        () => console.log("connected to DB")
+    );        
+
 });
 
 
 client.on("message", message => {
     if (!message.content.toLowerCase().startsWith(prefix) || message.author.bot) return;
-    const args = message.content.slice(prefix.length).trim().split(/ +|\n/g);
+    const args = message.content.slice(prefix.length).trim().split(/ +|\n+/g);
     const commandName = args.shift().toLowerCase();
     const command = client.commands.get(commandName) ||
-    client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+        client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
     if (!command) return;
  
@@ -57,10 +65,14 @@ client.on("message", message => {
     if (command.roles && command.roles.length) {
         let roleBool = false;
         
-        for (const role of command.roles) {
-            if (message.member.roles.cache.has(role.id)) {
-                roleBool = true;
-                break;
+        if (message.channel.type === 'dm') { 
+            roleBool = false; 
+        } else {
+            for (const role of command.roles) {
+                if (message.member.roles.cache.has(role.id)) {
+                    roleBool = true;
+                    break;
+                }
             }
         }
         
@@ -68,7 +80,7 @@ client.on("message", message => {
             const roleArr = [];
             for (const role of command.roles) roleArr.push(role.name);     
             
-            const text = `You don't have the required roles!\nYou need \`${roleArr.join("`, `")}\``;
+            const text = `You don't have the required roles!\nYou need \`${roleArr.join("`, `")}\` roles.`;
             return message.channel.send(text);
         }
     }
