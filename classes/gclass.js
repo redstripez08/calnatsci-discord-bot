@@ -82,7 +82,7 @@ class Gclass {
 
     async getCourseWork(pageSize = 5) {
         try {
-            const { data } = await Gclass.#classroom.courses.courseWork.list({courseId: this.subjectId ,pageSize});
+            const { data } = await Gclass.#classroom.courses.courseWork.list({courseId: this.subjectId, pageSize});
             return Promise.resolve(data.courseWork);
         } catch (error) {
             return Promise.reject(error);
@@ -156,11 +156,11 @@ class Gclass {
             // Creates Token from terminal input.
             oAuth2Client.getToken(code, async(err, token) => {
                 try {
-                    if (err) throw `Error retrieving access token: ${err}`;            
+                    if (err) throw `Error retrieving access token: ${err}`;      
                     oAuth2Client.setCredentials(token);
                     
                     // Writes token into `token.json`.
-                    const content = {content: cryptr.encrypt(JSON.stringify(token))}
+                    const content = {content: cryptr.encrypt(JSON.stringify(token))};
                     await fs.promises.writeFile(tokenPath, JSON.stringify(content));
                     console.log("Token stored to: " + tokenPath);
 
@@ -208,7 +208,6 @@ class Gclass {
 
             try {
                 // Gets token from `token.json` file for OAuth2. If not exits, it catches.
-                //const token = await fs.promises.readFile(tokenPath);
                 const token = require(tokenPath);
                 oAuth2Client.setCredentials(JSON.parse(cryptr.decrypt(token.content)));
 

@@ -22,7 +22,7 @@ module.exports = {
         const helpEmbed = new MessageEmbed()
             .setColor("#6600ff")
             .setAuthor("CalNatSci", 'https://i.imgur.com/kBKuF03.png')
-            .setThumbnail("https://i.imgur.com/xJf6bqz.png")
+            .setThumbnail("https://i.imgur.com/xJf6bqz.png") //! Change to server Logo
             .setTitle("Here's a list of all my commands:")
             .setDescription(`\`${commandArray.join('\`, \`')}\`.`)
             .addField("Tip:", `\nYou can send \`${prefix}help <Command Name>\` to get info on a specific command!`);            
