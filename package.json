@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node -r dotenv/config index.js",
-    "serve": "node -r dotenv/config ./server/server.js",
+    "serve": "nodemon -r dotenv/config ./server/server.js",
+    "node-serve": "node -r dotenv/config ./server/server.js",
     "test": "node -r dotenv/config ./test/test1.js",
     "whook": "node ./scripts/whook.js",
     "gtest": "node ./scripts/gTest.js",
