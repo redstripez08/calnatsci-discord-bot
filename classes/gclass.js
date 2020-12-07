@@ -225,4 +225,4 @@ class Gclass {
 
 }
 
-module.exports = { Gclass };
+module.exports = Gclass;

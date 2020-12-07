@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const fetch = require("node-fetch");
 
 module.exports = {
     name: "ud",
@@ -12,11 +13,9 @@ module.exports = {
     /**
      * Retrieves the definition of supplied search term in Urban Dictionary
      * @param {Discord.Message} message 
-     * @param {Array} args 
+     * @param {Array<String>} args 
      */
     async execute(message, args) {
-        const fetch = require("node-fetch");
-        const { MessageEmbed } = require("discord.js");
 
         const originLink = "https://api.urbandictionary.com";
         const link = new URL("/v0/define", originLink);
@@ -28,13 +27,13 @@ module.exports = {
 
         try {
             const res = await fetch(link, linkOptions);
-            if (!res.ok) throw `Something went wrong!\n\`${res.status}\`, \`${res.statusText}\`, \`${res.error}\``;
+            if (!res.ok) throw `${res.status}, ${res.statusText}, ${res.error}`;
 
             const { list } = await res.json();
             if (!list.length) return message.channel.send(`No Results Found for **${args.join(" ")}**`);
             
             const checkChar = (str, max = 2048) => (str.length > max) ? `${str.slice(0, max - 3)}...` : str;
-            const embed = new MessageEmbed()
+            const embed = new Discord.MessageEmbed()
                 .setColor(Math.floor(Math.random() * 10000000))
                 .setTitle(list[0].word)
                 .setDescription(checkChar(list[0].definition))
@@ -44,7 +43,7 @@ module.exports = {
 
             message.channel.send(embed);
         } catch (error) {
-            message.channel.send(error);
+            message.channel.send(`Something went wrong!\n\`${error}\``);
             console.error(error);
         }
     }

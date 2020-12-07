@@ -42,4 +42,4 @@ class File {
 
 }
 
-module.exports = { File };
+module.exports = File;
