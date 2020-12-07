@@ -1,0 +1,100 @@
+[
+    {
+        "subject": "ICT",
+        "color": "#ffc0cb",
+        "dayStart": 1,
+        "timeStart": "7:00",
+        "timeRemind": "6:50"
+    },
+    {
+        "subject": "Mathematics",
+        "color": "#0000ff",
+        "dayStart": 1,
+        "timeStart": "9:30",
+        "timeRemind": "9:20"
+    },
+    {
+        "subject": "Advanced Physics",
+        "color": "#964b00",
+        "dayStart": 1,
+        "timeStart": "1:00",
+        "timeRemind": "12:50"
+    },
+    {
+        "subject": "Research",
+        "color": "#964b00",
+        "dayStart": 2,
+        "timeStart": "7:00",
+        "timeRemind": "6:50"
+    },
+    {
+        "subject": "Filipino",
+        "color": "#ff0000",
+        "dayStart": 2,
+        "timeStart": "9:30",
+        "timeRemind": "9:20"
+    },
+    {
+        "subject": "ESP",
+        "color": "#fff",
+        "dayStart": 2,
+        "timeStart": "1:00",
+        "timeRemind": "12:50"
+    },
+    {
+        "subject": "Science",
+        "color": "#00FF00",
+        "dayStart": 3,
+        "timeStart": "7:00",
+        "timeRemind": "6:50"
+    },
+    {
+        "subject": "English",
+        "color": "#ffa500",
+        "dayStart": 3,
+        "timeStart": "9:30",
+        "timeRemind": "9:20"
+    },
+    {
+        "subject": "Araling Panlipunan",
+        "color": "#6a0dad",
+        "dayStart": 3,
+        "timeStart": "1:00",
+        "timeRemind": "12:50"
+    },
+    {
+        "subject": "Geometry",
+        "color": "#87ceeb",
+        "dayStart": 3,
+        "timeStart": "7:00",
+        "timeRemind": "6:50"
+    },
+    {
+        "subject": "MAPEH",
+        "color": "#000",
+        "dayStart": 3,
+        "timeStart": "9:30",
+        "timeRemind": "9:20"
+    },
+    {
+        "subject": "Consumer Chemistry",
+        "color": "#FFFF00",
+        "dayStart": 3,
+        "timeStart": "1:00",
+        "timeRemind": "12:50"
+    },
+    {
+        "subject": "RHGP",
+        "color": "#000",
+        "dayStart": 4,
+        "timeStart": "8:00",
+        "timeRemind": "7:50"
+    },
+    {
+        "subject": "Recess",
+        "color": "#808080",
+        "dayStart": "Everyday",
+        "timeStart": "9:00",
+        "timeRemind": "8:50"
+    }
+]
