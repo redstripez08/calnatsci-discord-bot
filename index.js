@@ -7,13 +7,13 @@ const commandFiles = fs.readdirSync("./commands/").filter(file => file.endsWith(
 const ready_commandFiles = fs.readdirSync("./ready_commands/").filter(file => file.endsWith(".js"));
 const classroom_commandFiles = fs.readdirSync("./classroom_commands/").filter(file => file.endsWith(".js"));
 
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 const cooldowns = new Discord.Collection();
 const ready_commands = new Discord.Collection();
 client.classCommands = new Discord.Collection();
 client.commands = new Discord.Collection();
 
-const { Gclass } = require("./classes/gclass.js");
+const { Gclass } = require("./classes");
 const { version } = require("./package.json");
 const { prefix, token, DB_CONNECTION } = process.env;
 
@@ -33,25 +33,28 @@ for (const commandFile of classroom_commandFiles) {
 }
 
 client.on("ready", async() => {
-    console.log(`${client.user.username} v${version} Ready`);
-    client.user.setActivity(`${prefix}help`, {type: "LISTENING"});
-
-    ready_commands.get("roleselect").execute(client);
+    
+    for (const command of ready_commands.values()) {
+        command.execute(client);
+    }
     
     await Gclass.authorize();
     console.log("Google Classroom Authorized");
-
-    mongoose.connect(
-        DB_CONNECTION,
-        {useNewUrlParser: true, useUnifiedTopology: true}, 
-        () => console.log("connected to DB")
-    );        
-
+    
+    // mongoose.connect(
+    //     DB_CONNECTION,
+    //     {useNewUrlParser: true, useUnifiedTopology: true}, 
+    //     () => console.log("connected to DB")
+    // );        
+        
+    console.log(`${client.user.username} v${version} Ready`);
+    client.user.setActivity(`${prefix}help`, {type: "LISTENING"});
 });
 
 
 client.on("message", message => {
     if (!message.content.toLowerCase().startsWith(prefix) || message.author.bot) return;
+    
     const args = message.content.slice(prefix.length).trim().split(/ +|\n+/g);
     const commandName = args.shift().toLowerCase();
     const command = client.commands.get(commandName) ||
