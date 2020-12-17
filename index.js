@@ -47,8 +47,8 @@ client.on("ready", async() => {
     //     () => console.log("connected to DB")
     // );        
         
-    console.log(`${client.user.username} v${version} Ready`);
     client.user.setActivity(`${prefix}help`, {type: "LISTENING"});
+    console.log(`${client.user.username} v${version} Ready`);
 });
 
 
