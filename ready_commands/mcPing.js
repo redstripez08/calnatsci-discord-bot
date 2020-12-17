@@ -59,7 +59,7 @@ class Server {
 
 /**
  * Builds Embed
- * @param   {"offline"|"online"}       state       State of server whether online or offline. 
+ * @param   {"offline"|"online"}        state       State of server whether online or offline. 
  * @param   {!Server}                   server      Server Owner
  * @param   {PingResponse}              [res]       Ping Response
  * @returns {Discord.MessageEmbed}      Discord Embed
