@@ -7,16 +7,49 @@ const commandFiles = fs.readdirSync("./commands/").filter(file => file.endsWith(
 const ready_commandFiles = fs.readdirSync("./ready_commands/").filter(file => file.endsWith(".js"));
 const classroom_commandFiles = fs.readdirSync("./classroom_commands/").filter(file => file.endsWith(".js"));
 
+/**
+ * @typedef CommandExecute      Command Execute Method
+ * @type {Function}
+ * 
+ * @param       {!Discord.Message}  message         Discord Message 
+ * @param       {String[]}          args            Arguments passed
+ */
+
+/**
+ * @typedef Command         Generic Structure of command files.
+ * @type {Object}
+ * 
+ * @property    {String}            name            Name of the command
+ * @property    {String[]}          aliases         Array of Aliases
+ * @property    {String}            description     Description of the command
+ * @property    {String}            usage           Shows how to use the command
+ * @property    {Number}            [cooldown=0]    Time required to elapse before executing command again in seconds
+ * @property    {Boolean}           guildOnly       Checks if command is guild or server-only
+ * @property    {Boolean}           args            Checks if command requires arguments
+ * @property    {Object[]}          [roles=null]    Array of roles that can use the command
+ * @property    {CommandExecute}    execute         Executes the command
+ */
+
 // const mongoose = require("mongoose");
 const cooldowns = new Discord.Collection();
-const ready_commands = new Discord.Collection();
+
 client.classCommands = new Discord.Collection();
 client.commands = new Discord.Collection();
+
+/** @type {Discord.Collection<String, Command>} */
+const ready_commands = new Discord.Collection();
+
+/** @type {Discord.Collection<String, Command>} */
+const classCommands = client.classCommands;
+
+/** @type {Discord.Collection<String, Command>} */
+const commands = client.commands;
 
 const { Gclass } = require("./classes");
 const { version } = require("./package.json");
 const { prefix, token, DB_CONNECTION } = process.env;
 
+// Require and set commands
 for (const commandFile of commandFiles) {
     const command = require(`./commands/${commandFile}`);
     client.commands.set(command.name, command);
@@ -32,8 +65,8 @@ for (const commandFile of classroom_commandFiles) {
     client.classCommands.set(command.name, command);
 }
 
-client.on("ready", async() => {
-    
+client.on("ready", async () => {
+    // execute ready commands
     for (const command of ready_commands.values()) {
         command.execute(client);
     }
@@ -57,11 +90,12 @@ client.on("message", message => {
     
     const args = message.content.slice(prefix.length).trim().split(/ +|\n+/g);
     const commandName = args.shift().toLowerCase();
-    const command = client.commands.get(commandName) ||
-        client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+    
+    /** @type {Command} */
+    const command = commands.get(commandName) || commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
     if (!command) return;
- 
+
     if (command.guildOnly && message.channel.type !== "text") 
     return message.reply(`\`${prefix}${command.name}\` only works for servers.`);
 
