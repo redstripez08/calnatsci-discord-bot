@@ -40,7 +40,7 @@ class Server {
         this.owner = owner;
         this.hostName = hostName;
         this.address = address;
-        this.port = port || 25565;
+        this.port = parseInt(port) || 25565;
     }
 
     /**
@@ -49,9 +49,9 @@ class Server {
      */
     get hostLogo() {
         switch (this.hostName) {
-            case "freemcserver": return "https://freemcserver.net/img/logo/logo.png";
-            case "aternos": return "meh";
-            default: return null;
+            case "freemcserver":    return "https://freemcserver.net/img/logo/logo.png";
+            case "aternos":         return "meh";
+            default:                return null;
         }
     }
 
@@ -65,23 +65,25 @@ class Server {
  * @returns {Discord.MessageEmbed}      Discord Embed
  */ 
 const embedBuilder = (state, server, res) => {
-    if (!state) return console.error("Server state Required!");
-    if (state.toLowerCase() !== "offline" && state.toLowerCase() !== "online") return console.error("Not a valid Server State!");
+    if (!state || typeof state !== "string") return console.error("Server state Required!");
+    // if (state.toLowerCase() !== "offline" && state.toLowerCase() !== "online") return console.error("Not a valid Server State!");
+    if (!["online", "offline"].some(x => x === state.toLowerCase())) return console.error("Not a valid server state");
 
     switch (state.toLowerCase()) {
         case "online":
-            /** @type {Array<String>} */
             const playerList = [];
-
-            for (const player of res.players.sample) playerList.push("> " + player.name);
             
+            if (res.players.sample) {
+                for (const player of res.players.sample) playerList.push("> " + player.name);
+            }
+
             return new Discord.MessageEmbed()
                 .setColor("#4077e6")
                 .setTitle(`:diamond_shape_with_a_dot_inside:  **${server.address}**`)
                 .setThumbnail(server.hostLogo)
                 .setDescription(`**Status:** Online\nWelcome to rook's Server!`)
                 .addField("Version", res.version.name)
-                .addField("Players", `${res.players.online}/${res.players.max}\n${playerList.sort((a, b) => a.localeCompare(b)).join("\n")}`)
+                .addField("Players", `${res.players.online}/${res.players.max}\n${res.players.sample ? playerList.sort((a, b) => a.localeCompare(b)).join("\n") : "> No Players!"}`)
                 .setFooter(`${res.ping}ms`);
 
         case "offline":
@@ -91,17 +93,13 @@ const embedBuilder = (state, server, res) => {
                 .setThumbnail(server.hostLogo)
                 .setDescription(`**Status:** Offline\n${server.owner}'s server is closed.`);
     }
-};
+}
 
 const rookServer = new Server("rook", "freemcserver", SERVER_ADDR);
 
 module.exports = {
     name: "mcping",
     description: "Pings Mincraft servers",
-    /**
-     * Pings MC servers
-     * @param {Discord.Client} client 
-     */
     async execute(client) {
         try {
             const channel = client.channels.cache.get("787717584908451897");
@@ -111,35 +109,12 @@ module.exports = {
                 try {
                      /** @type {PingResponse} */
                     const res = await pinger.pingPromise(rookServer.address);
-                    
-                    /** @type {Array<String>} */
-                    const playerList = [];
 
-                    for (const player of res.players.sample) {
-                        playerList.push("> " + player.name);
-                    }
-                    
-                    // const onlineEmbed = new Discord.MessageEmbed()
-                    //     .setColor("#4077e6")
-                    //     .setTitle(`:diamond_shape_with_a_dot_inside:  **rkmcsrv.mymc.cf**`)
-                    //     .setThumbnail("https://freemcserver.net/img/logo/logo.png")
-                    //     .setDescription(`**Status:** Online\nWelcome to rook's Server!`)
-                    //     .addField("Version", res.version.name)
-                    //     .addField("Players", `${res.players.online}/${res.players.max}\n${playerList.sort((a, b) => a.localeCompare(b)).join("\n")}`)
-                    //     .setFooter(`${res.ping}ms`);
-                    
                     rookServerEmbed.edit(embedBuilder("online", rookServer, res));
-
                 } catch (error) {
-                    // const offlineEmbed = new Discord.MessageEmbed()
-                    //     .setColor("#ff0000")
-                    //     .setTitle(":red_circle:  **rkmcsrv.mymc.cf**")
-                    //     .setThumbnail("https://freemcserver.net/img/logo/logo.png")
-                    //     .setDescription("**Status:** Offline\nrook's server is closed.");
+                    console.error(error);
 
                     rookServerEmbed.edit(embedBuilder("offline", rookServer));
-
-                    // console.error(error);
                 }
             }, 90 * 1000);
         } catch (error) {
