@@ -112,7 +112,7 @@ module.exports = {
 
                     rookServerEmbed.edit(embedBuilder("online", rookServer, res));
                 } catch (error) {
-                    console.error(error);
+                    // console.error(error);
 
                     rookServerEmbed.edit(embedBuilder("offline", rookServer));
                 }
