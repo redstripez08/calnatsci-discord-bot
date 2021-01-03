@@ -176,7 +176,7 @@ class Gclass {
 
     /**
      * Checks authorization of Gclass
-     * @param   {Array<String>}     scopes      Array of scopes of the API
+     * @param   {Array<String>}     [scopes]     Array of scopes of the API
      * @param   {String}            credPath    Path of `credentials.json`
      * @param   {String}            tokenPath   Path of `token.json`
      * @returns {Promise<void>}                 Void Promise
