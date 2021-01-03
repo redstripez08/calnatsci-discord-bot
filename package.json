@@ -4,7 +4,7 @@
   "description": "This is an unofficial Discord bot of CalNatSci.",
   "main": "index.js",
   "scripts": {
-    "start": "node -r dotenv/config index.js",
+    "start": "node -r dotenv/config --trace-warnings index.js",
     "serve": "node -r dotenv/config ./server/server.js",
     "nodemon-serve": "nodemon -r dotenv/config ./server/server.js",
     "http2-serve": "node -r dotenv/config ./server/server2.js",
@@ -31,7 +31,8 @@
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.32",
     "mongoose": "^5.10.15",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "toml": "^3.0.0"
   },
   "devDependencies": {
     "dotenv": "^8.2.0"
