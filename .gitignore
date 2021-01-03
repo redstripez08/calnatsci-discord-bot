@@ -15,3 +15,10 @@ test
 # json/sectionRoles.json
 # json/roles.json
 scripts/gTest.js
+
+*.key
+*.cert
+*.crt
+*.pem
+*.csr
+*.todo
