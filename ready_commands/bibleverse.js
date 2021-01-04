@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const moment = require("moment-timezone");
 const path = require("path");
 const TOML = require("toml");
-const { BIBLE_WEBHOOK_ID, BIBLE_WEBHOOK_TOKEN} = process.env;
+const { BIBLE_WEBHOOK_ID, BIBLE_WEBHOOK_TOKEN } = process.env;
 const { File } = require("../classes");
 
 const webhook = new Discord.WebhookClient(BIBLE_WEBHOOK_ID, BIBLE_WEBHOOK_TOKEN);
@@ -14,6 +14,7 @@ const dataFile = verseFile.readFileSync();
 const data = TOML.parse(dataFile);
 
 const date = moment.tz(new Date(), "Asia/Manila");
+let tripped = false;
 
 module.exports = {
     name: "bibleverse",
@@ -24,7 +25,7 @@ module.exports = {
      */
     async execute(client) {
         setInterval(() => {
-            if (date.hour() === 8 && date.minute() === 0) {
+            if (date.hour() === 8 && !tripped) {
                 for (const key in data) {
                     if (Object.hasOwnProperty.call(data, key)) {
                         if (date.isoWeekday() === parseInt(key)) {
@@ -39,6 +40,8 @@ module.exports = {
                         }
                     }
                 }
+                tripped = true;
+                setTimeout(() => tripped = false, 3600 * 1000);
             }
         }, 40 * 1000);
     }
