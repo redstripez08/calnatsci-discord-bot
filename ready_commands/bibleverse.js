@@ -14,6 +14,7 @@ const dataFile = verseFile.readFileSync();
 const data = TOML.parse(dataFile);
 
 const date = moment.tz(new Date(), "Asia/Manila");
+console.log(date);
 let tripped = false;
 
 module.exports = {
