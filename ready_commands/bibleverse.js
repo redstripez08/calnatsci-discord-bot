@@ -14,7 +14,7 @@ const dataFile = verseFile.readFileSync();
 const data = TOML.parse(dataFile);
 
 const date = moment.tz(new Date(), "Asia/Manila");
-console.log(date);
+console.log(date, date.hour(), BIBLE_WEBHOOK_ID, BIBLE_WEBHOOK_TOKEN);
 let tripped = false;
 
 module.exports = {
