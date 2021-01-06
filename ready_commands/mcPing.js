@@ -1,10 +1,7 @@
 const Discord = require("discord.js");
 const pinger = require("minecraft-pinger");
-const Crpytr = require("cryptr");
-const cryptr = new Crpytr(process.env.cryptrKey);
 
-// const { SERVER_ADDR } = process.env;
-const SERVER_ADDR = cryptr.decrypt("114d68e36bb645be3691bdb69ab2f10387e68e24d7f8ec67059655fce135bd0429cb226397840b1026794b203d83630e60a2d3296cdce9cbed8e533063712c2403180643ba3c9fdb9ca318af60777dde14ed668247fcb6e08da2d4e325cbe0ec219a603ea39f97b1fa5807b706d937")
+const { SERVER_ADDR } = process.env;
 
 /**
  * @typedef     PingResponse         Response of the pinger
@@ -95,7 +92,6 @@ const embedBuilder = (state, server, res) => {
     }
 }
 
-const rookServer = new Server("rook", "freemcserver", SERVER_ADDR);
 
 module.exports = {
     name: "mcping",
@@ -104,16 +100,15 @@ module.exports = {
         try {
             const channel = client.channels.cache.get("787717584908451897");
             const rookServerEmbed = await channel.messages.fetch("788338866129076224");
-
+            const rookServer = new Server("rook", null, SERVER_ADDR);
+            
             setInterval(async() => {
                 try {
                      /** @type {PingResponse} */
                     const res = await pinger.pingPromise(rookServer.address);
-
                     rookServerEmbed.edit(embedBuilder("online", rookServer, res));
                 } catch (error) {
                     // console.error(error);
-
                     rookServerEmbed.edit(embedBuilder("offline", rookServer));
                 }
             }, 90 * 1000);
