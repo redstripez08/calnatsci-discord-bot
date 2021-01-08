@@ -14,6 +14,10 @@
     "gtest": "node ./scripts/gTest.js",
     "heroku-serve": "node ./server/server.js"
   },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/redstripez08/calnatsci-discord-bot.git"
