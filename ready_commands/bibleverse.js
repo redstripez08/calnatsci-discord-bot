@@ -5,33 +5,23 @@ const TOML = require("toml");
 const { BIBLE_WEBHOOK_ID, BIBLE_WEBHOOK_TOKEN } = process.env;
 const { File } = require("../classes");
 
-// const lel = {
-//     BIBLE_WEBHOOK_ID: "787724888676892723",
-//     BIBLE_WEBHOOK_TOKEN: "Yr2TvEfPgfAsH3euPvf18ztlA6_qF7rNUOzLJ2N0EtHavSmovFDHZwHj_Q_m1BHhQvTN"
-// };
-
-// const { BIBLE_WEBHOOK_ID, BIBLE_WEBHOOK_TOKEN } = lel;
-
 const webhook = new Discord.WebhookClient(BIBLE_WEBHOOK_ID, BIBLE_WEBHOOK_TOKEN);
 const verseFile = new File(path.resolve(__dirname, "../config/verses.toml"), {encoding: "utf-8"});
-// const lolt = new File(path.resolve(__dirname, "./mcPing.js"), {encoding: "base64"});
-// console.log(lolt.readFileSync());
 
 const dataFile = verseFile.readFileSync();
 const data = TOML.parse(dataFile);
-
-const date = moment.tz(new Date(), "Asia/Manila");
 let tripped = false;
 
 module.exports = {
     name: "bibleverse",
     /**
-     * Sends pre-defined bible verses at a specific time.
-     * I myself am an atheist but my Christian friends wanted me to create this so I did.
+     * Sends pre-defined bible verses at a specific time. Made at friends request
      * @param {Discord.Client} client 
      */
     async execute(client) {
         setInterval(() => {
+            const date = moment.tz(new Date(), "Asia/Manila");
+
             if (date.hour() === 8 && !tripped) {
                 for (const key in data) {
                     if (Object.hasOwnProperty.call(data, key)) {
