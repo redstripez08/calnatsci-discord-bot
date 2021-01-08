@@ -2,15 +2,15 @@ const Discord = require("discord.js");
 const moment = require("moment-timezone");
 const path = require("path");
 const TOML = require("toml");
-// const { BIBLE_WEBHOOK_ID, BIBLE_WEBHOOK_TOKEN } = process.env;
+const { BIBLE_WEBHOOK_ID, BIBLE_WEBHOOK_TOKEN } = process.env;
 const { File } = require("../classes");
 
-const lel = {
-    BIBLE_WEBHOOK_ID: "787724888676892723",
-    BIBLE_WEBHOOK_TOKEN: "Yr2TvEfPgfAsH3euPvf18ztlA6_qF7rNUOzLJ2N0EtHavSmovFDHZwHj_Q_m1BHhQvTN"
-};
+// const lel = {
+//     BIBLE_WEBHOOK_ID: "787724888676892723",
+//     BIBLE_WEBHOOK_TOKEN: "Yr2TvEfPgfAsH3euPvf18ztlA6_qF7rNUOzLJ2N0EtHavSmovFDHZwHj_Q_m1BHhQvTN"
+// };
 
-const { BIBLE_WEBHOOK_ID, BIBLE_WEBHOOK_TOKEN } = lel;
+// const { BIBLE_WEBHOOK_ID, BIBLE_WEBHOOK_TOKEN } = lel;
 
 const webhook = new Discord.WebhookClient(BIBLE_WEBHOOK_ID, BIBLE_WEBHOOK_TOKEN);
 const verseFile = new File(path.resolve(__dirname, "../config/verses.toml"), {encoding: "utf-8"});
@@ -21,11 +21,7 @@ const dataFile = verseFile.readFileSync();
 const data = TOML.parse(dataFile);
 
 const date = moment.tz(new Date(), "Asia/Manila");
-console.log(date);
 let tripped = false;
-
-const dat = moment(new Date()).utc();
-console.log(dat);
 
 module.exports = {
     name: "bibleverse",
